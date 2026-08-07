@@ -1,0 +1,25 @@
+-- Read-only verification queries for Cortex RO / interview demo
+
+USE DATABASE HEAL_DEMO;
+
+-- 1) Staging column inventory
+SELECT COLUMN_NAME, DATA_TYPE
+FROM HEAL_DEMO.INFORMATION_SCHEMA.COLUMNS
+WHERE TABLE_SCHEMA = 'STAGING' AND TABLE_NAME = 'ORDERS'
+ORDER BY ORDINAL_POSITION;
+
+-- 2) Curated / dbt mart smoke
+SELECT * FROM CURATED.ORDERS_DAILY ORDER BY order_date LIMIT 5;
+SELECT * FROM DBT_DEV.ORDERS_DAILY ORDER BY order_date LIMIT 5;
+
+-- 3) Latest pipeline run
+SELECT run_id, pipeline, status, error_message, ran_at
+FROM META.PIPELINE_RUNS
+ORDER BY ran_at DESC
+LIMIT 5;
+
+-- 4) Blast-radius: objects that reference ORDERS (live-extend seam)
+SELECT TABLE_SCHEMA, TABLE_NAME, TABLE_TYPE
+FROM HEAL_DEMO.INFORMATION_SCHEMA.TABLES
+WHERE TABLE_SCHEMA IN ('STAGING', 'CURATED', 'META')
+ORDER BY TABLE_SCHEMA, TABLE_NAME;

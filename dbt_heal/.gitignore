@@ -1,0 +1,6 @@
+# dbt + local Python
+.venv/
+dbt_heal/profiles.yml
+dbt_heal/target/
+dbt_heal/dbt_packages/
+dbt_heal/logs/

@@ -1,0 +1,25 @@
+# Thin pointer — dbt models/yml are the real contract. Used by orchestrator blast gate.
+pipeline: orders_daily
+database: HEAL_DEMO
+dbt:
+  project_dir: dbt_heal
+  profile: heal_demo
+  mart_model: orders_daily
+  staging_model: stg_orders
+  source: heal.orders
+
+staging:
+  schema: STAGING
+  table: ORDERS
+
+curated:
+  # dbt materializes marts into HEAL_DEMO.DBT_DEV (see dbt_project.yml +schema)
+  schema: DBT_DEV
+  table: ORDERS_DAILY
+
+blast_radius:
+  max_downstream_objects: 3
+  downstream_schemas:
+    - DBT_DEV
+    - CURATED
+    - META

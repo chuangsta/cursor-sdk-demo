@@ -1,0 +1,13 @@
+---
+description: Route Snowflake queries to the cortex-code skill for specialized Snowflake expertise via Cortex Code CLI
+globs:
+alwaysApply: true
+---
+
+# Snowflake Query Routing
+
+When the user asks about Snowflake, databases, warehouses, Cortex, SQL on Snowflake, or HEAL_DEMO, invoke the cortex-code skill with conversation context and envelope **RO** unless explicitly overridden.
+
+/cortex-code [user's question with relevant context]
+
+Do NOT answer Snowflake questions yourself. ALWAYS invoke `/cortex-code`.

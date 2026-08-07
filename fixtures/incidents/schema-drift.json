@@ -1,0 +1,17 @@
+{
+  "id": "inc-2026-08-07-schema-drift",
+  "severity": "P2",
+  "pipeline": "orders_daily",
+  "database": "HEAL_DEMO",
+  "error_message": "SQL compilation error: error line 4 at position 6 invalid identifier 'AMOUNT'",
+  "failed_at": "2026-08-07T12:00:00Z",
+  "source": "fixture",
+  "hints": {
+    "staging_table": "HEAL_DEMO.STAGING.ORDERS",
+    "curated_table": "HEAL_DEMO.DBT_DEV.ORDERS_DAILY",
+    "contract_path": "pipeline/contract.yaml",
+    "dbt_project": "dbt_heal",
+    "dbt_model": "orders_daily",
+    "sql_path": "dbt_heal/models/marts/orders_daily.sql"
+  }
+}

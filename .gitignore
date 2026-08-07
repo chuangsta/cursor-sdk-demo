@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.env
+.DS_Store
+incidents/*
+!incidents/.gitkeep
+*.log
+vendor/
+.venv/
+dbt_heal/profiles.yml
+dbt_heal/target/
+dbt_heal/dbt_packages/
+dbt_heal/logs/
+dbt_heal/.user.yml

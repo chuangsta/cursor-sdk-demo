@@ -1,0 +1,50 @@
+{
+  "name": "cursor-sdk-demo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Self-healing Snowflake + dbt pipeline using Cursor SDK (local multi-agent)",
+  "type": "module",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "heal": "tsx src/heal.ts",
+    "heal:resume": "tsx src/heal.ts --resume",
+    "server": "tsx src/server.ts",
+    "models": "tsx src/check-models.ts",
+    "sf:whoami": "tsx src/sf.ts whoami",
+    "sf:seed": "tsx src/sf.ts seed",
+    "sf:break": "tsx src/sf.ts break",
+    "sf:verify": "tsx src/sf.ts verify",
+    "sf:sql": "tsx src/sf.ts sql",
+    "dbt:profile": "tsx src/dbtProfile.ts",
+    "dbt": "bash scripts/dbt.sh",
+    "dbt:debug": "bash scripts/dbt.sh debug",
+    "dbt:compile": "bash scripts/dbt.sh compile",
+    "dbt:run": "bash scripts/dbt.sh run",
+    "dbt:test": "bash scripts/dbt.sh test",
+    "dbt:build": "bash scripts/dbt.sh build",
+    "demo:heal": "tsx src/heal.ts --incident fixtures/incidents/schema-drift.json",
+    "demo:heal:dry": "HEAL_DRY_RUN=1 tsx src/heal.ts --incident fixtures/incidents/schema-drift.json",
+    "demo:blast-block": "tsx src/heal.ts --incident fixtures/incidents/schema-drift.json --estimated-downstream 99",
+    "demo:blast-confirm": "tsx src/heal.ts --incident fixtures/incidents/schema-drift.json --estimated-downstream 99 --confirm-blast-radius",
+    "setup:day0": "bash scripts/setup-day0.sh",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@cursor/sdk": "latest",
+    "@hono/node-server": "^1.14.0",
+    "dotenv": "^16.4.7",
+    "hono": "^4.7.0",
+    "smol-toml": "^1.7.1",
+    "snowflake-sdk": "^3.1.0",
+    "yaml": "^2.7.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "@types/snowflake-sdk": "^1.6.24",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
+  }
+}

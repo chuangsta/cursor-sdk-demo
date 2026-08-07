@@ -1,0 +1,18 @@
+version: 2
+
+models:
+  - name: stg_orders
+    description: Staging view over HEAL_DEMO.STAGING.ORDERS
+    columns:
+      - name: order_id
+        tests:
+          - not_null
+          - unique
+      - name: amount
+        description: Order gross amount in USD — rename to order_amount on drift
+        tests:
+          - not_null
+      - name: status
+        tests:
+          - accepted_values:
+              values: ["COMPLETE", "PENDING", "CANCELLED"]

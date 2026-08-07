@@ -1,0 +1,30 @@
+---
+description: Self-healing dbt pipeline policy — RO Snowflake, dbt_heal-only heals, mandatory multi-agent REPORT.md
+globs:
+alwaysApply: true
+---
+
+# Heal Policy (dbt)
+
+You are operating inside the self-healing Snowflake + dbt pipeline prototype.
+
+## Hard rules
+
+1. **Snowflake access is RO-only.** Investigate/verify via cortex-code RO or `npx tsx src/sf.ts sql`. No DDL/DML. No RW/DEPLOY.
+2. **Heal in git.** Only modify `dbt_heal/models/**` and `incidents/<id>/**`.
+3. **Always write** `incidents/<id>/REPORT.md` with Agents invoked, dbt results, and `status: passed|failed`.
+4. **dbt is the contract.** Keep SQL + yml tests/docs aligned with live `STAGING.ORDERS` columns. See `pipeline/contract.yaml` for blast_radius only.
+5. **Blast-radius gate.** Respect orchestrator `--confirm-blast-radius` / contract thresholds.
+6. **Kill switch.** `HEAL_DRY_RUN=1` → investigate only; no dbt_heal edits.
+7. **No secrets.** Never commit PAT/API keys. `dbt_heal/profiles.yml` is gitignored.
+8. **Multi-agent order is mandatory:** investigator → healer → docs_sync → test_runner → verifier.
+9. **Local runtime.** Do not assume cloud agent VM tools.
+
+## Workflow
+
+1. Classify failure
+2. investigator (RO)
+3. healer + docs_sync (unless dry-run)
+4. test_runner (`dbt compile` / `dbt test`)
+5. verifier
+6. REPORT.md

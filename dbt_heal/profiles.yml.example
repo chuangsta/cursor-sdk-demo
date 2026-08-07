@@ -1,0 +1,22 @@
+# Copy to profiles.yml (gitignored) and fill secrets from env / connections.toml.
+# Never commit password/PAT.
+#
+#   cp dbt_heal/profiles.yml.example dbt_heal/profiles.yml
+#   # set SNOWFLAKE_ACCOUNT, SNOWFLAKE_USER, SNOWFLAKE_PASSWORD (PAT), etc.
+#
+# Or run: npm run dbt:profile  (generates from ~/.snowflake/connections.toml)
+
+heal_demo:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT', 'NPSZJKJ-QP25178') }}"
+      user: "{{ env_var('SNOWFLAKE_USER', 'CZHU') }}"
+      password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
+      role: "{{ env_var('SNOWFLAKE_ROLE', 'ACCOUNTADMIN') }}"
+      warehouse: "{{ env_var('SNOWFLAKE_WAREHOUSE', 'COMPUTE_WH') }}"
+      database: HEAL_DEMO
+      schema: DBT_DEV
+      threads: 4
+      client_session_keep_alive: False

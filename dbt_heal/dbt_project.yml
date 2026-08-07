@@ -1,0 +1,29 @@
+name: heal_demo
+version: 1.0.0
+config-version: 2
+profile: heal_demo
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+clean-targets: ["target", "dbt_packages"]
+
+vars:
+  blast_radius:
+    max_downstream_objects: 3
+    downstream_schemas:
+      - DBT_DEV
+      - CURATED
+      - META
+
+models:
+  heal_demo:
+    staging:
+      +materialized: view
+      +schema: staging
+    marts:
+      +materialized: table
+      +schema: dbt_dev

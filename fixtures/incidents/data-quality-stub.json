@@ -1,0 +1,17 @@
+{
+  "id": "inc-data-quality-stub",
+  "severity": "P3",
+  "pipeline": "orders_daily",
+  "database": "HEAL_DEMO",
+  "error_message": "dbt test failure: not_null_stg_orders_amount (null_ratio exceeded)",
+  "failed_at": "2026-08-07T15:00:00Z",
+  "source": "fixture-stub",
+  "hints": {
+    "staging_table": "HEAL_DEMO.STAGING.ORDERS",
+    "curated_table": "HEAL_DEMO.DBT_DEV.ORDERS_DAILY",
+    "contract_path": "pipeline/contract.yaml",
+    "dbt_project": "dbt_heal",
+    "dbt_model": "orders_daily",
+    "sql_path": "dbt_heal/models/marts/orders_daily.sql"
+  }
+}

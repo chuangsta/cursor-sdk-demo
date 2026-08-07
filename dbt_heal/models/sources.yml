@@ -1,0 +1,36 @@
+version: 2
+
+sources:
+  - name: heal
+    description: HEAL_DEMO staged source data used by the self-healing dbt project.
+    database: HEAL_DEMO
+    schema: STAGING
+    tables:
+      - name: orders
+        description: >
+          Raw orders feed. Canonical money column is `amount` until schema drift
+          renames it to `order_amount` (demo break script).
+        columns:
+          - name: order_id
+            description: Primary order identifier
+            tests:
+              - not_null
+              - unique
+          - name: customer_id
+            description: Customer identifier
+            tests:
+              - not_null
+          - name: order_ts
+            description: Order timestamp
+            tests:
+              - not_null
+          - name: amount
+            description: Order gross amount in USD (schema-drift heal target)
+            tests:
+              - not_null
+          - name: status
+            description: Order lifecycle status
+            tests:
+              - not_null
+              - accepted_values:
+                  values: ["COMPLETE", "PENDING", "CANCELLED"]
