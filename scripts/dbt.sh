@@ -3,6 +3,12 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 export DBT_PROFILES_DIR="${DBT_PROFILES_DIR:-$ROOT/dbt_heal}"
+
+# Prefer project venv so agents don't need `source .venv/bin/activate`
+if [[ -x "$ROOT/.venv/bin/dbt" ]]; then
+  export PATH="$ROOT/.venv/bin:$PATH"
+fi
+
 cd "$ROOT/dbt_heal"
 
 if [[ ! -f "$DBT_PROFILES_DIR/profiles.yml" ]]; then

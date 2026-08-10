@@ -24,6 +24,8 @@
     "dbt:run": "bash scripts/dbt.sh run",
     "dbt:test": "bash scripts/dbt.sh test",
     "dbt:build": "bash scripts/dbt.sh build",
+    "preflight": "bash scripts/preflight.sh",
+    "demo:reset": "bash scripts/demo-reset.sh",
     "demo:heal": "tsx src/heal.ts --incident fixtures/incidents/schema-drift.json",
     "demo:heal:dry": "HEAL_DRY_RUN=1 tsx src/heal.ts --incident fixtures/incidents/schema-drift.json",
     "demo:blast-block": "tsx src/heal.ts --incident fixtures/incidents/schema-drift.json --estimated-downstream 99",

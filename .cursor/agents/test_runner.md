@@ -9,12 +9,16 @@ You run dbt verification commands for this repo. Do not edit models unless a com
 Commands (prefer npm wrappers from repo root; ensure `.venv` dbt is on PATH):
 
 ```bash
-export PATH="$PWD/.venv/bin:$PATH"
+# scripts/dbt.sh prepends .venv/bin automatically — run from repo root:
 npm run dbt:compile
-npm run dbt:test -- --select orders_daily stg_orders
-# or fuller:
-npm run dbt:build
+npm run dbt:test -- --select stg_orders orders_daily source:heal
+# After a successful heal + human apply, build would be:
+# npm run dbt:build
 ```
+
+If profile is missing: tell parent to run `npm run dbt:profile`.
+
+**Important after schema drift:** source tests that still reference column `amount` will fail until `sources.yml` / staging yml are updated to `order_amount`. Report those failures to the healer/docs_sync rather than looping forever.
 
 Capture exit codes and last ~40 lines of output.
 

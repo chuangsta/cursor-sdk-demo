@@ -31,18 +31,17 @@ npm install
 python3 -m venv .venv && source .venv/bin/activate
 pip install 'dbt-snowflake>=1.8,<1.11'
 npm run dbt:profile    # writes gitignored dbt_heal/profiles.yml from connections.toml
-npm run sf:seed
-npm run dbt:run && npm run dbt:test
+npm run preflight
+npm run demo:reset     # seed + dbt build (green)
 npm run models         # Router vs fallback
 ```
 
 ## Usage
 
 ```bash
-source .venv/bin/activate   # so npm run dbt:* finds dbt
-
-npm run sf:seed
-npm run dbt:build           # green baseline
+# .venv is auto-picked by scripts/dbt.sh — activate only if you like
+npm run preflight
+npm run demo:reset          # green baseline
 npm run sf:break            # schema drift: amount → order_amount
 npm run demo:heal           # multi-agent heal loop
 
