@@ -46,10 +46,14 @@ You MUST delegate with the Agent/Task tool in this exact order (do not collapse 
 1. **investigator** — RO diagnosis + blast radius
 2. **healer** — patch dbt SQL/yml model definitions (skip edits if dry-run)
 3. **docs_sync** — align column descriptions/tests in yml (skip if dry-run)
-4. **test_runner** — \`npm run dbt:compile\` and \`npm run dbt:test\` (ensure \`.venv/bin\` on PATH)
+4. **test_runner** — \`npm run dbt:compile\` and \`npm run dbt:test\` (\`scripts/dbt.sh\` auto-adds \`.venv/bin\`)
 5. **verifier** — RO + dbt results → final status
 6. Write \`incidents/${incident.id}/REPORT.md\` including **Agents invoked**
    End with \`status: passed\` or \`status: failed\`.
+
+## After healing
+- Do NOT run DDL against Snowflake. Human/CI applies with \`npm run dbt:run\`.
+- If dbt test fails only because source column tests still say \`amount\`, healer/docs_sync must update \`sources.yml\` + staging/marts yml together.
 
 ## Classification
 schema_drift | data_quality | runtime | unknown — usually schema_drift for invalid identifier amount.

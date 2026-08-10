@@ -23,7 +23,8 @@ models:
   heal_demo:
     staging:
       +materialized: view
-      +schema: staging
+      # Land staging views alongside marts for a simple demo schema
+      +schema: DBT_DEV
     marts:
       +materialized: table
-      +schema: dbt_dev
+      +schema: DBT_DEV

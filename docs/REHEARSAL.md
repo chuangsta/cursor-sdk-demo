@@ -2,14 +2,13 @@
 
 ## Reset → break → heal (dbt)
 
-1. `source .venv/bin/activate`
-2. `npm run sf:seed` && `npm run dbt:build` (green: 16 tests)
-3. `npm run sf:break` (amount → order_amount)
-4. Show `dbt run` failure or `invalid identifier` expectation
-5. Optional: `git checkout -- dbt_heal/` if a prior heal left patches
-6. `npm run demo:heal` — watch multi-agent delegation
-7. `REPORT.md` + `git diff dbt_heal/models`
-8. Narrate: human/CI `dbt run` applies mart refresh
+1. `npm run preflight`
+2. `npm run demo:reset` (seed + dbt build green)
+3. `npm run sf:break` (amount → order_amount); show `dbt run` failure
+4. Optional: `git checkout -- dbt_heal/` if a prior heal left patches (reset already does this)
+5. `npm run demo:heal` — watch multi-agent delegation
+6. `REPORT.md` + `git diff dbt_heal/models`
+7. Narrate: human/CI `dbt run` applies mart refresh
 
 ## Live-extend
 
