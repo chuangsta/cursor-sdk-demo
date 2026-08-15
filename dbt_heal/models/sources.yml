@@ -8,8 +8,8 @@ sources:
     tables:
       - name: orders
         description: >
-          Raw orders feed. Canonical money column is `amount` until schema drift
-          renames it to `order_amount` (demo break script).
+          Raw orders feed. Canonical money column is `order_amount` (post schema
+          drift heal on HEAL_DEMO.STAGING.ORDERS).
         columns:
           - name: order_id
             description: Primary order identifier
@@ -24,8 +24,8 @@ sources:
             description: Order timestamp
             tests:
               - not_null
-          - name: amount
-            description: Order gross amount in USD (schema-drift heal target)
+          - name: order_amount
+            description: Order gross amount in USD (canonical column after schema drift heal)
             tests:
               - not_null
           - name: status
