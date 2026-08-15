@@ -269,7 +269,15 @@ export async function publishHealPr(
       }
     }
 
-    git(options.repoRoot, ["push", "-u", "origin", "HEAD"]);
+    // Heal branches are reset to base then recommitted; force-with-lease updates
+    // an existing remote PR branch on rehearsal republish without a blind --force.
+    git(options.repoRoot, [
+      "push",
+      "--force-with-lease",
+      "-u",
+      "origin",
+      "HEAD",
+    ]);
 
     const title = `heal: ${options.incident.pipeline} (${options.incident.id})`;
     const body = await buildPrBody(

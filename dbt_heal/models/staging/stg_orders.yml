@@ -8,7 +8,7 @@ models:
         tests:
           - not_null
           - unique
-      - name: order_amount
+      - name: amount
         description: Order gross amount in USD
         tests:
           - not_null
