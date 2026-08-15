@@ -57,6 +57,26 @@ npm run sf:break
 
 Watcher posts a unique `inc-schema-drift-watch-*` incident; server runs the multi-agent heal loop. Reset with `npm run demo:reset` and restart `watch:drift` for another take.
 
+### Hybrid — PR review then CI `dbt run`
+
+After a heal (or for the current local `dbt_heal/models` diff):
+
+```bash
+# Option A: heal + open PR in one step
+npm run demo:heal:pr
+# or: npm run heal -- --incident fixtures/incidents/schema-drift.json --create-pr
+
+# Option B: already healed — publish PR from working tree
+npm run heal:pr -- --incident inc-schema-drift-watch-2026-08-15T11-39-32-120Z
+
+# Requires: gh auth login
+```
+
+1. Review / merge the PR on GitHub (**merge = approve**).
+2. Workflow [`.github/workflows/dbt-apply.yml`](../.github/workflows/dbt-apply.yml) runs `dbt run` on push to `master` when `dbt_heal/**` changes (needs Snowflake secrets in the repo).
+
+Server: `POST /incidents?create_pr=1` or `HEAL_CREATE_PR=1`.
+
 ---
 
 ## 2) dbt compile fail

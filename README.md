@@ -54,6 +54,8 @@ Webhook: `npm run server` then `POST /incidents` with the fixture JSON.
 
 Auto schema-drift (Phase 1): `npm run server` + `npm run watch:drift`, then `npm run sf:break` or ALTER in Snowsight — see [`docs/DEMO_PATHS.md`](docs/DEMO_PATHS.md).
 
+Hybrid PR gate: `npm run demo:heal:pr` or `npm run heal:pr -- --incident <id>` opens a GitHub PR for `dbt_heal/models`. Merge triggers CI `dbt-apply` (`dbt run`).
+
 ## Demo script (~20 min)
 
 See full three-path guide: [`docs/DEMO_PATHS.md`](docs/DEMO_PATHS.md).

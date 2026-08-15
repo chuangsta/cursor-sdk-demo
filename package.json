@@ -31,6 +31,8 @@
     "demo:paths": "bash scripts/demo-paths.sh",
     "demo:break-compile": "bash scripts/break-compile.sh",
     "demo:heal": "tsx src/heal.ts --incident fixtures/incidents/schema-drift.json",
+    "demo:heal:pr": "HEAL_CREATE_PR=1 tsx src/heal.ts --incident fixtures/incidents/schema-drift.json --create-pr",
+    "heal:pr": "tsx src/publishPrCli.ts",
     "demo:heal:compile": "tsx src/heal.ts --incident fixtures/incidents/compile-fail.json",
     "demo:heal:dup": "tsx src/heal.ts --incident fixtures/incidents/duplicate-orders.json",
     "demo:heal:dry": "HEAL_DRY_RUN=1 tsx src/heal.ts --incident fixtures/incidents/schema-drift.json",
