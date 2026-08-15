@@ -8,8 +8,8 @@ models:
         tests:
           - not_null
           - unique
-      - name: amount
-        description: Order gross amount in USD — rename to order_amount on drift
+      - name: order_amount
+        description: Order gross amount in USD
         tests:
           - not_null
       - name: status
