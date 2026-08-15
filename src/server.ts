@@ -37,6 +37,10 @@ app.post("/incidents", async (c) => {
     c.req.header("x-confirm-blast-radius") === "1";
   const dryRun =
     process.env.HEAL_DRY_RUN === "1" || c.req.query("dry_run") === "1";
+  const createPr =
+    process.env.HEAL_CREATE_PR === "1" ||
+    c.req.query("create_pr") === "1" ||
+    c.req.header("x-create-pr") === "1";
 
   const incidentPath = path.join(
     repoRoot,
@@ -54,6 +58,7 @@ app.post("/incidents", async (c) => {
       incidentPath,
       dryRun,
       confirmBlastRadius,
+      createPr,
     });
     return c.json({
       ok: true,
@@ -63,6 +68,8 @@ app.post("/incidents", async (c) => {
       usedRouter: result.usedRouter,
       modelNote: result.modelNote,
       report: `incidents/${incident.id}/REPORT.md`,
+      prUrl: result.prUrl,
+      prSkipped: result.prSkipped,
     });
   } catch (err) {
     return c.json(

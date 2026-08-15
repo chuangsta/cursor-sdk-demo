@@ -13,6 +13,7 @@ import { resolveModel } from "./model.js";
 import { FileNotifier } from "./notifiers/fileNotifier.js";
 import { SlackStubNotifier } from "./notifiers/slackStub.js";
 import { buildHealPrompt, buildResumePrompt } from "./prompts.js";
+import { publishHealPr, shouldCreatePr } from "./publishPr.js";
 
 export type HealOptions = {
   repoRoot: string;
@@ -22,6 +23,8 @@ export type HealOptions = {
   confirmBlastRadius?: boolean;
   /** Override estimated downstream count for gate testing / live extend */
   estimatedDownstream?: number;
+  /** After heal, commit dbt_heal models and open a GitHub PR */
+  createPr?: boolean;
 };
 
 export type HealResult = {
@@ -30,6 +33,8 @@ export type HealResult = {
   modelNote: string;
   usedRouter: boolean;
   status: "passed" | "failed" | "unknown";
+  prUrl?: string;
+  prSkipped?: string;
 };
 
 function requireApiKey(): string {
@@ -210,11 +215,37 @@ export async function runHeal(options: HealOptions): Promise<HealResult> {
     });
   }
 
+  let prUrl: string | undefined;
+  let prSkipped: string | undefined;
+  if (shouldCreatePr(options.createPr) && !dryRun) {
+    console.log("[heal] HEAL_CREATE_PR / --create-pr: publishing GitHub PR…");
+    try {
+      const pr = await publishHealPr({
+        repoRoot: options.repoRoot,
+        incident,
+        status,
+        dryRun: false,
+      });
+      prUrl = pr.prUrl;
+      prSkipped = pr.skipped;
+      if (pr.skipped) console.log(`[heal] PR skipped: ${pr.skipped}`);
+      if (pr.prUrl) console.log(`[heal] PR: ${pr.prUrl}`);
+    } catch (err) {
+      prSkipped = err instanceof Error ? err.message : String(err);
+      console.error(`[heal] PR publish failed: ${prSkipped}`);
+    }
+  } else if (shouldCreatePr(options.createPr) && dryRun) {
+    prSkipped = "dry-run — PR not created";
+    console.log(`[heal] ${prSkipped}`);
+  }
+
   return {
     incident,
     agentId,
     modelNote: resolved.note,
     usedRouter: resolved.usedRouter,
     status,
+    prUrl,
+    prSkipped,
   };
 }

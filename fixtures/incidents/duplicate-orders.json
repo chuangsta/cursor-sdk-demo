@@ -1,0 +1,18 @@
+{
+  "id": "inc-dbt-test-duplicate-orders",
+  "severity": "P2",
+  "pipeline": "orders_daily",
+  "database": "HEAL_DEMO",
+  "error_message": "dbt test failure: unique_stg_orders_order_id — duplicate order_id rows in staging (also source_unique_heal_orders_order_id)",
+  "failed_at": "2026-08-10T12:30:00Z",
+  "source": "fixture",
+  "hints": {
+    "staging_table": "HEAL_DEMO.STAGING.ORDERS",
+    "curated_table": "HEAL_DEMO.DBT_DEV.ORDERS_DAILY",
+    "contract_path": "pipeline/contract.yaml",
+    "dbt_project": "dbt_heal",
+    "dbt_model": "stg_orders",
+    "sql_path": "dbt_heal/models/staging/stg_orders.sql",
+    "failure_class": "dbt_test_duplicate"
+  }
+}

@@ -56,7 +56,8 @@ You MUST delegate with the Agent/Task tool in this exact order (do not collapse 
 - If dbt test fails only because source column tests still say \`amount\`, healer/docs_sync must update \`sources.yml\` + staging/marts yml together.
 
 ## Classification
-schema_drift | data_quality | runtime | unknown — usually schema_drift for invalid identifier amount.
+schema_drift | compile_fail | dbt_test_duplicate | data_quality | runtime | unknown
+Use incident hints.failure_class when present.
 
 Start now. Stream progress and name each subagent when you invoke it.`;
 }

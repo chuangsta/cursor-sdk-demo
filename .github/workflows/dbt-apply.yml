@@ -1,0 +1,62 @@
+# Apply healed dbt models after PR merge (human approval gate).
+# Repo secrets: SNOWFLAKE_ACCOUNT, SNOWFLAKE_USER, SNOWFLAKE_PASSWORD (PAT ok),
+# optional: SNOWFLAKE_WAREHOUSE, SNOWFLAKE_ROLE, SNOWFLAKE_DATABASE
+name: dbt-apply
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - "dbt_heal/**"
+  workflow_dispatch:
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dbt-snowflake
+        run: pip install 'dbt-snowflake>=1.8,<1.11'
+
+      - name: Write profiles.yml from secrets
+        working-directory: dbt_heal
+        env:
+          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+          SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
+          SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+          SNOWFLAKE_WAREHOUSE: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
+          SNOWFLAKE_ROLE: ${{ secrets.SNOWFLAKE_ROLE }}
+          SNOWFLAKE_DATABASE: ${{ secrets.SNOWFLAKE_DATABASE }}
+        run: |
+          set -euo pipefail
+          test -n "${SNOWFLAKE_ACCOUNT:-}" || { echo "Missing SNOWFLAKE_ACCOUNT"; exit 1; }
+          test -n "${SNOWFLAKE_USER:-}" || { echo "Missing SNOWFLAKE_USER"; exit 1; }
+          test -n "${SNOWFLAKE_PASSWORD:-}" || { echo "Missing SNOWFLAKE_PASSWORD"; exit 1; }
+          cat > profiles.yml <<EOF
+          heal_demo:
+            target: dev
+            outputs:
+              dev:
+                type: snowflake
+                account: "${SNOWFLAKE_ACCOUNT}"
+                user: "${SNOWFLAKE_USER}"
+                password: "${SNOWFLAKE_PASSWORD}"
+                role: "${SNOWFLAKE_ROLE:-ACCOUNTADMIN}"
+                warehouse: "${SNOWFLAKE_WAREHOUSE:-COMPUTE_WH}"
+                database: "${SNOWFLAKE_DATABASE:-HEAL_DEMO}"
+                schema: DBT_DEV
+                threads: 4
+                client_session_keep_alive: False
+          EOF
+          chmod 600 profiles.yml
+
+      - name: dbt run (apply healed models)
+        working-directory: dbt_heal
+        run: |
+          dbt --version
+          dbt run --profiles-dir . --project-dir .
