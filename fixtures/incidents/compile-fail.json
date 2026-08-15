@@ -1,0 +1,18 @@
+{
+  "id": "inc-compile-fail-missing-ref",
+  "severity": "P2",
+  "pipeline": "orders_daily",
+  "database": "HEAL_DEMO",
+  "error_message": "Compilation Error in model stg_orders: Model 'model.heal_demo.orders_bronze' not found (depends on in stg_orders.sql)",
+  "failed_at": "2026-08-10T12:00:00Z",
+  "source": "fixture",
+  "hints": {
+    "staging_table": "HEAL_DEMO.STAGING.ORDERS",
+    "curated_table": "HEAL_DEMO.DBT_DEV.ORDERS_DAILY",
+    "contract_path": "pipeline/contract.yaml",
+    "dbt_project": "dbt_heal",
+    "dbt_model": "stg_orders",
+    "sql_path": "dbt_heal/models/staging/stg_orders.sql",
+    "failure_class": "compile_fail"
+  }
+}

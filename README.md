@@ -54,11 +54,20 @@ Webhook: `npm run server` then `POST /incidents` with the fixture JSON.
 
 ## Demo script (~20 min)
 
-1. Show green: `dbt_heal/models/marts/orders_daily.sql` + yml tests/docs (`amount`).
-2. `npm run sf:break` — staging column rename; `dbt run` would fail on invalid identifier.
-3. `npm run demo:heal` — stream **investigator → healer → docs_sync → test_runner → verifier**.
-4. Open `REPORT.md` (Agents invoked) + git diff under `dbt_heal/models/`.
-5. Live extend: blast-radius gate or add a freshness test in yml.
+See full three-path guide: [`docs/DEMO_PATHS.md`](docs/DEMO_PATHS.md).
+
+1. `npm run demo:reset` — green `dbt_heal` + Snowflake.
+2. Core path — schema drift: `npm run demo:paths -- drift` then `npm run demo:heal`.
+3. Optional flash — compile / duplicates: `npm run demo:paths -- compile` or `-- dup`.
+4. Open `REPORT.md` (Agents invoked) + `git diff dbt_heal/models/`.
+5. Live extend: `npm run demo:blast-block`.
+
+```bash
+npm run demo:paths -- list
+npm run demo:heal              # drift
+npm run demo:heal:compile      # compile-fail
+npm run demo:heal:dup          # duplicate unique tests
+```
 
 ## Local vs cloud
 

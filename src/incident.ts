@@ -19,6 +19,7 @@ export const IncidentSchema = z.object({
       sql_path: z.string().optional(),
       dbt_project: z.string().optional(),
       dbt_model: z.string().optional(),
+      failure_class: z.string().optional(),
     })
     .optional(),
 });

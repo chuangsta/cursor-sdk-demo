@@ -7,7 +7,8 @@
  *   npm run sf:whoami
  *   npm run sf:sql -- "SELECT 1"
  *   npm run sf:seed
- *   npm run sf:break
+ *   npm run sf:break          # schema drift
+ *   npm run sf:break-dup      # duplicate order_ids for unique tests
  */
 import { readFile } from "node:fs/promises";
 import path from "node:path";
@@ -62,9 +63,15 @@ async function main() {
     return;
   }
 
-  if (cmd === "break") {
+  if (cmd === "break" || cmd === "break-drift") {
     await runFile("fixtures/snowflake/break_schema_drift.sql");
-    console.log("[sf] break complete");
+    console.log("[sf] break-drift complete (amount → order_amount)");
+    return;
+  }
+
+  if (cmd === "break-dup") {
+    await runFile("fixtures/snowflake/break_duplicate_orders.sql");
+    console.log("[sf] break-dup complete (duplicate order_ids inserted)");
     return;
   }
 

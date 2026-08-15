@@ -15,4 +15,5 @@ echo "[demo:reset] dbt build (compile + run + test)..."
 npm run dbt:build
 
 echo "[demo:reset] green baseline ready."
-echo "Next: npm run sf:break && npm run demo:heal"
+echo "Demo paths: npm run demo:paths -- list"
+echo "Next (drift): npm run sf:break && npm run demo:heal"
