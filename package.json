@@ -11,6 +11,7 @@
     "heal": "tsx src/heal.ts",
     "heal:resume": "tsx src/heal.ts --resume",
     "server": "tsx src/server.ts",
+    "watch:drift": "tsx src/watchDrift.ts",
     "models": "tsx src/check-models.ts",
     "sf:whoami": "tsx src/sf.ts whoami",
     "sf:seed": "tsx src/sf.ts seed",

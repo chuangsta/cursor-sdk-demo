@@ -36,6 +36,27 @@ npm run demo:paths -- drift
 npm run demo:heal
 ```
 
+### Phase 1 — auto-trigger (ALTER → heal)
+
+Polls `INFORMATION_SCHEMA` for `ORDER_AMOUNT` without `AMOUNT`, then `POST /incidents` (debounced once per watcher process).
+
+```bash
+# Terminal 1 — heal webhook
+npm run server
+
+# Terminal 2 — RO poller (default every 15s)
+npm run watch:drift
+# optional: npm run watch:drift -- --dry-run --once
+# optional: npm run watch:drift -- --interval 10
+
+# Terminal 3 / Snowsight — create drift
+npm run demo:reset   # if not already green
+npm run sf:break
+# or: ALTER TABLE HEAL_DEMO.STAGING.ORDERS RENAME COLUMN amount TO order_amount;
+```
+
+Watcher posts a unique `inc-schema-drift-watch-*` incident; server runs the multi-agent heal loop. Reset with `npm run demo:reset` and restart `watch:drift` for another take.
+
 ---
 
 ## 2) dbt compile fail

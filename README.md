@@ -52,6 +52,8 @@ npm run heal:resume -- --incident fixtures/incidents/schema-drift.json
 
 Webhook: `npm run server` then `POST /incidents` with the fixture JSON.
 
+Auto schema-drift (Phase 1): `npm run server` + `npm run watch:drift`, then `npm run sf:break` or ALTER in Snowsight — see [`docs/DEMO_PATHS.md`](docs/DEMO_PATHS.md).
+
 ## Demo script (~20 min)
 
 See full three-path guide: [`docs/DEMO_PATHS.md`](docs/DEMO_PATHS.md).
