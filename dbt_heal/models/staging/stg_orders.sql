@@ -4,6 +4,6 @@ select
   order_id,
   customer_id,
   order_ts,
-  amount,
+  order_amount,
   status
 from {{ source('heal', 'orders') }}
