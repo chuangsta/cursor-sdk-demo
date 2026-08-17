@@ -7,7 +7,9 @@ sources:
     schema: STAGING
     tables:
       - name: orders
-        description: Raw orders feed with canonical money column `order_amount`.
+        description: >
+          Raw orders feed. Canonical money column is `order_amount` after schema drift
+          (see fixtures/snowflake/break_schema_drift.sql).
         columns:
           - name: order_id
             description: Primary order identifier
