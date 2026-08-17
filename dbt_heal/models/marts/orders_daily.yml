@@ -3,8 +3,9 @@ version: 2
 models:
   - name: orders_daily
     description: >
-      Daily order metrics mart. Aggregates staging order `order_amount` into
-      gross and completed amounts.
+      Daily order metrics mart. Aggregates staging order `order_amount` into gross and
+      completed amounts. Heal agents must keep SQL + docs aligned with live
+      STAGING.ORDERS columns after schema drift.
     columns:
       - name: order_date
         description: Calendar day of the order
