@@ -1,7 +1,6 @@
 {{ config(alias='orders_daily') }}
 
--- Intentionally brittle: depends on staging column `order_amount`.
--- After fixtures/snowflake/break_schema_drift.sql, source has order_amount instead.
+-- Aggregates staging column `order_amount` into daily gross and completed totals.
 select
   date_trunc('day', order_ts)::date as order_date,
   count(*) as order_count,
