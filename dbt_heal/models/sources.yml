@@ -8,8 +8,7 @@ sources:
     tables:
       - name: orders
         description: >
-          Raw orders feed. Canonical money column is `order_amount` after schema drift
-          (see fixtures/snowflake/break_schema_drift.sql).
+          Raw orders feed. Canonical money column is `order_amount`.
         columns:
           - name: order_id
             description: Primary order identifier
